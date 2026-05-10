@@ -28,7 +28,7 @@ export default function Login() {
   }
 
   return (
-    <main className="min-h-screen bg-pink-50 flex items-center justify-center px-4">
+    <main className="min-h-screen bg-blue-50 flex items-center justify-center px-4">
       <div className="bg-white p-8 rounded-2xl shadow-lg w-full max-w-md">
         <h1 className="text-2xl font-bold text-center text-gray-900 mb-2">
           Bem-vinda de volta! ✈️
@@ -46,7 +46,7 @@ export default function Login() {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-500"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
               placeholder="seu@email.com"
               required
             />
@@ -60,7 +60,7 @@ export default function Login() {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-500"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
               placeholder="••••••••"
               required
             />
@@ -73,7 +73,7 @@ export default function Login() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-pink-500 text-white py-3 rounded-lg font-semibold hover:bg-pink-600 disabled:opacity-50"
+            className="w-full bg-primary-500 text-white py-3 rounded-lg font-semibold hover:bg-primary-600 disabled:opacity-50"
           >
             {loading ? 'Entrando...' : 'Entrar'}
           </button>
@@ -81,7 +81,7 @@ export default function Login() {
 
         <p className="text-center mt-6 text-gray-600">
           Não tem conta?{' '}
-          <a href="/register" className="text-pink-500 font-semibold hover:underline">
+          <a href="/register" className="text-primary-500 font-semibold hover:underline">
             Cadastre-se
           </a>
         </p>

@@ -24,14 +24,8 @@ export default function Dashboard() {
         return
       }
       setUser(user)
-      const { data: modulesData } = await supabase
-        .from('modules')
-        .select('*')
-        .eq('is_published', true)
-        .order('order_index')
-      if (modulesData) {
-        setModules(modulesData)
-      }
+      const { data: modulesData } = await supabase.from('modules').select('*').eq('is_published', true).order('order_index')
+      if (modulesData) setModules(modulesData)
       setLoading(false)
     }
     loadData()
@@ -43,33 +37,29 @@ export default function Dashboard() {
   }
 
   if (loading) {
-    return (
-      <main className="min-h-screen bg-pink-50 flex items-center justify-center">
-        <p className="text-gray-600">Carregando...</p>
-      </main>
-    )
+    return <main className="min-h-screen bg-blue-50 flex items-center justify-center"><p>Carregando...</p></main>
   }
 
   return (
-    <main className="min-h-screen bg-pink-50">
+    <main className="min-h-screen bg-blue-50">
       <header className="bg-white shadow-sm">
-        <div className="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
-          <h1 className="text-2xl font-bold text-pink-600">Milhas Club</h1>
+        <div className="max-w-5xl mx-auto px-4 py-3 flex justify-between items-center">
+          <h1 className="text-xl font-bold text-blue-600">Milhas Club</h1>
           <div className="flex items-center gap-4">
-            <span className="text-gray-600">{user?.email}</span>
-            <button onClick={handleLogout} className="text-gray-500">Sair</button>
+            <span className="text-gray-600 text-sm">{user?.email}</span>
+            <button onClick={handleLogout} className="text-gray-500 text-sm">Sair</button>
           </div>
         </div>
       </header>
-      <div className="max-w-6xl mx-auto px-4 py-8">
-        <h2 className="text-2xl font-bold text-gray-900 mb-6">Seus Modulos</h2>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="max-w-5xl mx-auto px-4 py-8">
+        <h2 className="text-xl font-bold text-gray-900 mb-6">Seus Modulos</h2>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {modules.map((mod) => (
-            <a key={mod.id} href={'/modulo/' + mod.id} className="bg-white rounded-xl overflow-hidden shadow-md">
-              <img src={mod.thumbnail_url} alt={mod.title} className="w-full h-40 object-cover" />
-              <div className="p-4">
-                <h3 className="font-bold text-gray-900 mb-2">{mod.title}</h3>
-                <p className="text-gray-600 text-sm">{mod.description}</p>
+            <a key={mod.id} href={'/modulo/' + mod.id} className="bg-white rounded-lg overflow-hidden shadow hover:shadow-md">
+              <img src={mod.thumbnail_url} alt={mod.title} className="w-full h-24 object-cover" />
+              <div className="p-3">
+                <h3 className="font-semibold text-gray-900 text-sm mb-1">{mod.title}</h3>
+                <p className="text-gray-500 text-xs">{mod.description}</p>
               </div>
             </a>
           ))}

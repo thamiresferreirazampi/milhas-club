@@ -25,52 +25,34 @@ export default function AulaPage() {
         window.location.href = '/login'
         return
       }
-
-      const { data: lessonData } = await supabase
-        .from('lessons')
-        .select('*')
-        .eq('id', params.id)
-        .single()
-
-      if (lessonData) {
-        setLesson(lessonData)
-      }
-
+      const { data: lessonData } = await supabase.from('lessons').select('*').eq('id', params.id).single()
+      if (lessonData) setLesson(lessonData)
       setLoading(false)
     }
     loadData()
   }, [params.id])
 
   if (loading) {
-    return (
-      <main className="min-h-screen bg-gray-900 flex items-center justify-center">
-        <p className="text-gray-400">Carregando...</p>
-      </main>
-    )
+    return <main className="min-h-screen bg-gray-900 flex items-center justify-center"><p className="text-gray-400">Carregando...</p></main>
   }
+
+  const embedUrl = lesson?.video_url.includes('watch?v=') ? lesson.video_url.replace('watch?v=', 'embed/') : lesson?.video_url
 
   return (
     <main className="min-h-screen bg-gray-900">
       <header className="bg-gray-800">
-        <div className="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
-          <a href="/dashboard" className="text-2xl font-bold text-pink-500">Milhas Club</a>
-          <a href={'/modulo/' + lesson?.module_id} className="text-gray-400 hover:text-white">← Voltar ao modulo</a>
+        <div className="max-w-4xl mx-auto px-4 py-3 flex justify-between items-center">
+          <a href="/dashboard" className="text-xl font-bold text-blue-400">Milhas Club</a>
+          <a href={'/modulo/' + lesson?.module_id} className="text-gray-400 text-sm">Voltar</a>
         </div>
       </header>
-
-      <div className="max-w-4xl mx-auto px-4 py-8">
-        <div className="bg-black rounded-xl overflow-hidden mb-6 aspect-video">
-          <iframe
-            src={lesson?.video_url.replace('watch?v=', 'embed/')}
-            className="w-full h-full"
-            allowFullScreen
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          />
+      <div className="max-w-4xl mx-auto px-4 py-6">
+        <div className="bg-black rounded-lg overflow-hidden mb-4 aspect-video">
+          <iframe src={embedUrl} className="w-full h-full" allowFullScreen />
         </div>
-
-        <h1 className="text-2xl font-bold text-white mb-2">{lesson?.title}</h1>
-        <p className="text-gray-400 mb-4">{lesson?.duration_minutes} minutos</p>
-        <p className="text-gray-300">{lesson?.description}</p>
+        <h1 className="text-xl font-bold text-white mb-2">{lesson?.title}</h1>
+        <p className="text-gray-400 text-sm mb-3">{lesson?.duration_minutes} minutos</p>
+        <p className="text-gray-300 text-sm">{lesson?.description}</p>
       </div>
     </main>
   )
