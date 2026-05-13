@@ -25,6 +25,18 @@ export default function AulaPage() {
         window.location.href = '/login'
         return
       }
+
+      const { data: access } = await supabase
+        .from('user_access')
+        .select('id')
+        .eq('email', user.email!)
+        .single()
+
+      if (!access) {
+        window.location.href = '/pricing'
+        return
+      }
+
       const { data: lessonData } = await supabase.from('lessons').select('*').eq('id', params.id).single()
       if (lessonData) setLesson(lessonData)
       setLoading(false)

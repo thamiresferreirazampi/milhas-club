@@ -23,6 +23,18 @@ export default function Dashboard() {
         window.location.href = '/login'
         return
       }
+
+      const { data: access } = await supabase
+        .from('user_access')
+        .select('id')
+        .eq('email', user.email!)
+        .single()
+
+      if (!access) {
+        window.location.href = '/pricing'
+        return
+      }
+
       setUser(user)
       const { data: modulesData } = await supabase.from('modules').select('*').eq('is_published', true).order('order_index')
       if (modulesData) setModules(modulesData)

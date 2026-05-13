@@ -34,6 +34,17 @@ export default function ModulePage() {
         return
       }
 
+      const { data: access } = await supabase
+        .from('user_access')
+        .select('id')
+        .eq('email', user.email!)
+        .single()
+
+      if (!access) {
+        window.location.href = '/pricing'
+        return
+      }
+
       const { data: moduleData } = await supabase
         .from('modules')
         .select('*')
