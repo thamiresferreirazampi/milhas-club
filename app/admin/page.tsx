@@ -73,12 +73,16 @@ export default function AdminPage() {
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
 
+  async function authHeaders(): Promise<Record<string, string>> {
+    const { data: { session } } = await supabase.auth.getSession()
+    if (!session?.access_token) return {}
+    return { Authorization: `Bearer ${session.access_token}` }
+  }
+
   useEffect(() => {
     async function check() {
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) { window.location.href = '/login'; return }
-      const res = await fetch('/api/admin/modules')
-      if (res.status === 401) { window.location.href = '/dashboard'; return }
       fetchAll()
     }
     check()
@@ -87,11 +91,13 @@ export default function AdminPage() {
   async function fetchAll() {
     setLoading(true)
     try {
+      const headers = await authHeaders()
       const [modRes, lesRes, stuRes] = await Promise.all([
-        fetch('/api/admin/modules'),
-        fetch('/api/admin/lessons'),
-        fetch('/api/admin/students'),
+        fetch('/api/admin/modules', { headers }),
+        fetch('/api/admin/lessons', { headers }),
+        fetch('/api/admin/students', { headers }),
       ])
+      if (modRes.status === 401) { window.location.href = '/dashboard'; return }
       if (modRes.ok) setModules(await modRes.json())
       if (lesRes.ok) setLessons(await lesRes.json())
       if (stuRes.ok) setStudents(await stuRes.json())
@@ -125,7 +131,7 @@ export default function AdminPage() {
     const body = editingModuleId ? { ...moduleForm, id: editingModuleId } : moduleForm
     const res = await fetch('/api/admin/modules', {
       method,
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', ...await authHeaders() },
       body: JSON.stringify(body),
     })
     if (!res.ok) {
@@ -142,7 +148,7 @@ export default function AdminPage() {
     if (!confirm('Excluir módulo? As aulas do módulo também serão removidas.')) return
     await fetch('/api/admin/modules', {
       method: 'DELETE',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', ...await authHeaders() },
       body: JSON.stringify({ id }),
     })
     await fetchAll()
@@ -172,7 +178,7 @@ export default function AdminPage() {
     const body = editingLessonId ? { ...formData, id: editingLessonId } : formData
     const res = await fetch('/api/admin/lessons', {
       method,
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', ...await authHeaders() },
       body: JSON.stringify(body),
     })
     if (!res.ok) {
@@ -189,7 +195,7 @@ export default function AdminPage() {
     if (!confirm('Excluir aula?')) return
     await fetch('/api/admin/lessons', {
       method: 'DELETE',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', ...await authHeaders() },
       body: JSON.stringify({ id }),
     })
     await fetchAll()
@@ -203,7 +209,7 @@ export default function AdminPage() {
     setStudentError('')
     const res = await fetch('/api/admin/students', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', ...await authHeaders() },
       body: JSON.stringify({ email: newStudentEmail.trim() }),
     })
     if (!res.ok) {
@@ -220,7 +226,7 @@ export default function AdminPage() {
     if (!confirm(`Revogar acesso de ${email}?`)) return
     await fetch('/api/admin/students', {
       method: 'DELETE',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', ...await authHeaders() },
       body: JSON.stringify({ email }),
     })
     await fetchAll()

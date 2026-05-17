@@ -1,16 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase-admin'
-import { createServerClient } from '@supabase/ssr'
-import { cookies } from 'next/headers'
 
-async function getUser() {
-  const cookieStore = await cookies()
-  const client = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    { cookies: { getAll: () => cookieStore.getAll() } }
-  )
-  const { data: { user } } = await client.auth.getUser()
+async function getUser(req: NextRequest) {
+  const auth = req.headers.get('Authorization')
+  if (!auth?.startsWith('Bearer ')) return null
+  const token = auth.slice(7)
+  const { data: { user } } = await supabaseAdmin.auth.getUser(token)
   return user
 }
 
@@ -19,8 +14,8 @@ function isAdmin(email: string) {
   return adminEmail ? email === adminEmail : true
 }
 
-export async function GET() {
-  const user = await getUser()
+export async function GET(req: NextRequest) {
+  const user = await getUser(req)
   if (!user || !isAdmin(user.email!)) {
     return NextResponse.json({ error: 'Não autorizado' }, { status: 401 })
   }
@@ -35,7 +30,7 @@ export async function GET() {
 }
 
 export async function POST(req: NextRequest) {
-  const user = await getUser()
+  const user = await getUser(req)
   if (!user || !isAdmin(user.email!)) {
     return NextResponse.json({ error: 'Não autorizado' }, { status: 401 })
   }
@@ -52,7 +47,7 @@ export async function POST(req: NextRequest) {
 }
 
 export async function PUT(req: NextRequest) {
-  const user = await getUser()
+  const user = await getUser(req)
   if (!user || !isAdmin(user.email!)) {
     return NextResponse.json({ error: 'Não autorizado' }, { status: 401 })
   }
@@ -72,7 +67,7 @@ export async function PUT(req: NextRequest) {
 }
 
 export async function DELETE(req: NextRequest) {
-  const user = await getUser()
+  const user = await getUser(req)
   if (!user || !isAdmin(user.email!)) {
     return NextResponse.json({ error: 'Não autorizado' }, { status: 401 })
   }
