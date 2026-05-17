@@ -10,8 +10,7 @@ async function getUser(req: NextRequest) {
 }
 
 function isAdmin(email: string) {
-  const adminEmail = process.env.ADMIN_EMAIL
-  return adminEmail ? email === adminEmail : true
+  return email === 'thamires.ferreirazampitravel@gmail.com'
 }
 
 export async function GET(req: NextRequest) {
