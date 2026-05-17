@@ -85,15 +85,20 @@ export default function AdminPage() {
 
   async function fetchAll() {
     setLoading(true)
-    const [modRes, lesRes, stuRes] = await Promise.all([
-      fetch('/api/admin/modules'),
-      fetch('/api/admin/lessons'),
-      fetch('/api/admin/students'),
-    ])
-    if (modRes.ok) setModules(await modRes.json())
-    if (lesRes.ok) setLessons(await lesRes.json())
-    if (stuRes.ok) setStudents(await stuRes.json())
-    setLoading(false)
+    try {
+      const [modRes, lesRes, stuRes] = await Promise.all([
+        fetch('/api/admin/modules'),
+        fetch('/api/admin/lessons'),
+        fetch('/api/admin/students'),
+      ])
+      if (modRes.ok) setModules(await modRes.json())
+      if (lesRes.ok) setLessons(await lesRes.json())
+      if (stuRes.ok) setStudents(await stuRes.json())
+    } catch (e) {
+      console.error('fetchAll error:', e)
+    } finally {
+      setLoading(false)
+    }
   }
 
   // ── Módulos ──────────────────────────────────────────────────────────────
@@ -236,11 +241,15 @@ export default function AdminPage() {
       <div className="max-w-5xl mx-auto px-4 py-6">
         {/* Tabs */}
         <div className="flex gap-2 mb-6 border-b">
-          {([['aulas', 'Aulas'], ['modulos', 'Módulos'], ['alunos', `Alunos (${students.length})`]] as const).map(([t, label]) => (
+          {([
+            { key: 'aulas', label: 'Aulas' },
+            { key: 'modulos', label: 'Módulos' },
+            { key: 'alunos', label: `Alunos (${students.length})` },
+          ] as { key: 'aulas' | 'modulos' | 'alunos'; label: string }[]).map(({ key, label }) => (
             <button
-              key={t}
-              onClick={() => setTab(t)}
-              className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${tab === t ? 'border-blue-600 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700'}`}
+              key={key}
+              onClick={() => setTab(key)}
+              className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${tab === key ? 'border-blue-600 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700'}`}
             >
               {label}
             </button>
