@@ -77,7 +77,8 @@ export default function AdminPage() {
     async function check() {
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) { window.location.href = '/login'; return }
-      if (user.email !== process.env.NEXT_PUBLIC_ADMIN_EMAIL) { window.location.href = '/dashboard'; return }
+      const res = await fetch('/api/admin/modules')
+      if (res.status === 401) { window.location.href = '/dashboard'; return }
       fetchAll()
     }
     check()
