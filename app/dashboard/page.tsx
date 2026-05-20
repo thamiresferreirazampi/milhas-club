@@ -131,7 +131,7 @@ export default function Dashboard() {
         {/* Banner de boas-vindas */}
         <div
           className="rounded-2xl p-6 md:p-8 mb-8 text-white relative overflow-hidden"
-          style={{ background: 'linear-gradient(135deg, #1E6BFF 0%, #0B0B0F 100%)' }}
+          style={{ background: 'linear-gradient(135deg, #1D6FFF 0%, #0B1730 60%, #081224 100%)' }}
         >
           <div className="absolute inset-0 opacity-[0.06] pointer-events-none"
             style={{ backgroundImage: 'radial-gradient(circle at 90% 10%, white 1.5px, transparent 1.5px)', backgroundSize: '30px 30px' }}

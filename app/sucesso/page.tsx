@@ -5,11 +5,11 @@ export default function Sucesso() {
     <main className="min-h-screen bg-brand-black flex items-center justify-center px-4">
       <div
         className="w-full max-w-md text-center"
-        style={{ background: '#1A1F2B', border: '1px solid #2E3548', borderRadius: 20, padding: 48, boxShadow: '0 24px 48px rgba(0,0,0,0.4)' }}
+        style={{ background: 'linear-gradient(180deg, #14213D 0%, #182845 100%)', border: '1px solid #2F4E85', borderRadius: 20, padding: 48, boxShadow: '0 24px 48px rgba(0,0,0,0.4), 0 0 60px rgba(29,111,255,0.12)' }}
       >
         <div
           className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6"
-          style={{ background: 'rgba(37,99,235,0.15)', border: '1px solid rgba(37,99,235,0.3)' }}
+          style={{ background: 'rgba(29,111,255,0.15)', border: '1px solid rgba(29,111,255,0.35)' }}
         >
           <Plane className="w-9 h-9 text-brand-blue -rotate-45" />
         </div>

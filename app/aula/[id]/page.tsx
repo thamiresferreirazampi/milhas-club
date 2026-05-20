@@ -279,7 +279,7 @@ export default function AulaPage() {
         <div className="fixed inset-0 z-30 bg-black/70 md:hidden" onClick={() => setSidebarOpen(false)}>
           <div
             className="absolute right-0 top-0 bottom-0 w-72 overflow-y-auto"
-            style={{ background: '#1A1F2B', borderLeft: '1px solid #2E3548' }}
+            style={{ background: 'linear-gradient(180deg, #14213D 0%, #0B1730 100%)', borderLeft: '1px solid #2F4E85' }}
             onClick={(e) => e.stopPropagation()}
           >
             <div className="p-4 border-b border-brand-border flex items-center justify-between">

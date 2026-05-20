@@ -108,7 +108,7 @@ export default function ModulePage() {
         {/* Hero do módulo */}
         <div
           className="rounded-2xl overflow-hidden mb-6"
-          style={{ background: '#1A1F2B', border: '1px solid #2E3548', boxShadow: '0 8px 24px rgba(0,0,0,0.3)' }}
+          style={{ background: 'linear-gradient(180deg, #14213D 0%, #182845 100%)', border: '1px solid #2F4E85', boxShadow: '0 12px 40px rgba(0,0,0,0.35)' }}
         >
           {module?.thumbnail_url && (
             <div className="relative h-48 overflow-hidden">
@@ -184,20 +184,20 @@ export default function ModulePage() {
                 href={'/aula/' + lesson.id}
                 className="group flex items-center gap-4 rounded-xl px-4 py-3.5 transition-all"
                 style={{
-                  background: isCurrent ? '#212838' : '#1A1F2B',
-                  border: `1px solid ${isCurrent ? '#2563EB' : '#2E3548'}`,
+                  background: isCurrent ? '#1B2B4F' : '#14213D',
+                  border: `1px solid ${isCurrent ? '#1D6FFF' : '#2F4E85'}`,
                   transition: 'all 0.25s ease',
                 }}
                 onMouseEnter={e => {
                   if (!isCurrent) {
-                    (e.currentTarget as HTMLElement).style.borderColor = '#3B82F6'
-                    ;(e.currentTarget as HTMLElement).style.background = '#212838'
+                    (e.currentTarget as HTMLElement).style.borderColor = '#4F7DFF'
+                    ;(e.currentTarget as HTMLElement).style.background = '#1B2B4F'
                   }
                 }}
                 onMouseLeave={e => {
                   if (!isCurrent) {
-                    (e.currentTarget as HTMLElement).style.borderColor = '#2E3548'
-                    ;(e.currentTarget as HTMLElement).style.background = '#1A1F2B'
+                    (e.currentTarget as HTMLElement).style.borderColor = '#2F4E85'
+                    ;(e.currentTarget as HTMLElement).style.background = '#14213D'
                   }
                 }}
               >

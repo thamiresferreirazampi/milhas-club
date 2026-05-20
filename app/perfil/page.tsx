@@ -98,12 +98,12 @@ export default function PerfilPage() {
       <div className="max-w-3xl mx-auto px-4 py-8 space-y-5">
 
         {/* Info da conta */}
-        <div style={{ background: '#1A1F2B', border: '1px solid #2E3548', borderRadius: 16, padding: 24 }}>
+        <div style={{ background: 'linear-gradient(180deg, #14213D 0%, #182845 100%)', border: '1px solid #2F4E85', borderRadius: 16, padding: 24 }}>
           <h2 className="text-xl text-white mb-5">Minha conta</h2>
           <div className="flex items-center gap-4 mb-6">
             <div
               className="w-14 h-14 rounded-full flex items-center justify-center text-white font-bold text-xl"
-              style={{ background: 'linear-gradient(135deg, #2563EB, #3B82F6)' }}
+              style={{ background: 'linear-gradient(135deg, #1D6FFF, #3B82FF)' }}
             >
               {user.email?.[0]?.toUpperCase()}
             </div>
@@ -113,11 +113,11 @@ export default function PerfilPage() {
             </div>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <div style={{ background: '#212838', border: '1px solid #2E3548', borderRadius: 12, padding: 16 }}>
+            <div style={{ background: '#1B2B4F', border: '1px solid #2F4E85', borderRadius: 12, padding: 16 }}>
               <p className="text-xs text-brand-gray-light mb-1">E-mail</p>
               <p className="text-sm font-medium text-white">{user.email}</p>
             </div>
-            <div style={{ background: '#212838', border: '1px solid #2E3548', borderRadius: 12, padding: 16 }}>
+            <div style={{ background: '#1B2B4F', border: '1px solid #2F4E85', borderRadius: 12, padding: 16 }}>
               <p className="text-xs text-brand-gray-light mb-1">Plano</p>
               <p className="text-sm font-medium text-brand-success">Acesso vitalício ✓</p>
             </div>
@@ -125,7 +125,7 @@ export default function PerfilPage() {
         </div>
 
         {/* Alterar senha */}
-        <div style={{ background: '#1A1F2B', border: '1px solid #2E3548', borderRadius: 16, padding: 24 }}>
+        <div style={{ background: 'linear-gradient(180deg, #14213D 0%, #182845 100%)', border: '1px solid #2F4E85', borderRadius: 16, padding: 24 }}>
           <h2 className="text-xl text-white mb-1">Alterar senha</h2>
           <p className="text-sm text-brand-gray-light mb-6">Escolha uma senha com pelo menos 6 caracteres.</p>
 
@@ -175,7 +175,7 @@ export default function PerfilPage() {
         </div>
 
         {/* Sessão */}
-        <div style={{ background: '#1A1F2B', border: '1px solid #2E3548', borderRadius: 16, padding: 24 }}>
+        <div style={{ background: 'linear-gradient(180deg, #14213D 0%, #182845 100%)', border: '1px solid #2F4E85', borderRadius: 16, padding: 24 }}>
           <h2 className="text-xl text-white mb-1">Sessão</h2>
           <p className="text-sm text-brand-gray-light mb-4">Encerrar sua sessão em todos os dispositivos.</p>
           <button

@@ -53,7 +53,7 @@ export default function Register() {
       </div>
       <div
         className="absolute inset-0 opacity-20 pointer-events-none"
-        style={{ background: 'radial-gradient(ellipse at 70% 50%, #1E6BFF 0%, transparent 60%)' }}
+        style={{ background: 'radial-gradient(ellipse at 70% 50%, rgba(29,111,255,0.3) 0%, transparent 60%)' }}
       />
 
       <div className="w-full max-w-md relative">
