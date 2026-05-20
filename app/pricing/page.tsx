@@ -136,9 +136,9 @@ export default function Pricing() {
               <div className="flex items-start justify-between mb-5 pt-2">
                 <div>
                   <p className="text-xs font-bold text-pink-400 uppercase tracking-widest mb-1">Premium</p>
-                  <div className="flex items-end gap-2 mb-0.5">
+                  <div className="flex items-center gap-3 mb-0.5">
                     <span className="text-gray-400 line-through text-base">R$&nbsp;497</span>
-                    <span className="bg-pink-100 text-pink-600 text-xs font-bold px-2 py-0.5 rounded-full mb-1">60% OFF</span>
+                    <span className="bg-pink-100 text-pink-600 text-xs font-bold px-2.5 py-1 rounded-full">60% OFF</span>
                   </div>
                   <div className="flex items-end gap-1">
                     <span className="text-4xl font-extrabold text-gray-900">R$&nbsp;197</span>
@@ -256,22 +256,9 @@ export default function Pricing() {
                 <Shield className="w-3 h-3" /> Pagamento seguro
               </span>
               <span className="text-gray-200">·</span>
-              <span className="text-gray-400 text-xs">7 dias de garantia</span>
+              <span className="text-gray-400 text-xs">Acesso imediato</span>
               <span className="text-gray-200">·</span>
               <span className="text-gray-400 text-xs">Via Stripe</span>
-            </div>
-          </div>
-
-          {/* Garantia */}
-          <div className="mt-4 bg-white/70 border border-gray-100 rounded-2xl p-4 flex items-start gap-3">
-            <div className="w-9 h-9 bg-green-50 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-              <Shield className="w-4 h-4 text-green-500" />
-            </div>
-            <div>
-              <p className="text-gray-900 text-sm font-semibold">Garantia de 7 dias</p>
-              <p className="text-gray-500 text-xs leading-relaxed mt-0.5">
-                Se não ficar satisfeita por qualquer motivo, devolvemos 100% do seu dinheiro — sem perguntas.
-              </p>
             </div>
           </div>
         </div>
@@ -285,11 +272,10 @@ const plans = {
   basic: {
     features: [
       { label: 'Módulos 1, 2 e 3 (fundamentos)', included: true },
-      { label: '15+ aulas em vídeo', included: true },
+      { label: '10 aulas em vídeo', included: true },
       { label: 'Acesso vitalício', included: true },
       { label: 'Suporte por e-mail', included: true },
-      { label: 'Módulos 4, 5 e 6 (avançado)', included: false },
-      { label: 'Atualizações gratuitas', included: false },
+      { label: 'Módulos avançados (4, 5 e 6)', included: false },
       { label: 'Suporte prioritário', included: false },
     ],
   },
