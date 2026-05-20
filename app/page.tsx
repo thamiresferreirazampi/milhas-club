@@ -3,7 +3,7 @@
 import { motion, AnimatePresence, type Variants } from 'framer-motion'
 import {
   Plane, Target, Map, Lightbulb, Check,
-  ArrowRight, Shield, ChevronDown, Wind, Compass,
+  ArrowRight, ChevronDown, Wind, Compass,
 } from 'lucide-react'
 import { useState } from 'react'
 
@@ -172,10 +172,6 @@ export default function Home() {
               variants={fadeUp}
               className="text-sm text-blue-300 flex items-center justify-center gap-3 flex-wrap"
             >
-              <span className="flex items-center gap-1.5">
-                <Shield className="w-3.5 h-3.5" /> 7 dias de garantia
-              </span>
-              <span className="text-blue-700">·</span>
               <span>Acesso imediato</span>
               <span className="text-blue-700">·</span>
               <span>Pagamento seguro</span>
@@ -187,20 +183,6 @@ export default function Home() {
         {/* Borda de transição suave */}
         <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-white to-transparent" />
       </section>
-
-      {/* ── NÚMEROS RÁPIDOS ── */}
-      <Section className="py-14 px-5 bg-white border-b border-gray-100">
-        <div className="max-w-4xl mx-auto">
-          <motion.div variants={stagger} className="grid grid-cols-3 gap-6 text-center">
-            {stats.map((s) => (
-              <motion.div key={s.label} variants={fadeUp}>
-                <p className="text-3xl md:text-4xl font-black text-blue-900">{s.value}</p>
-                <p className="text-gray-400 text-sm mt-1">{s.label}</p>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </Section>
 
       {/* ── O QUE VOCÊ APRENDE ── */}
       <Section className="py-24 px-5 bg-blue-50">
@@ -350,9 +332,6 @@ export default function Home() {
               >
                 Garantir meu acesso agora <ArrowRight className="w-4 h-4" />
               </a>
-              <p className="text-blue-300 text-sm mt-5 flex items-center justify-center gap-1.5">
-                <Shield className="w-3.5 h-3.5" /> 7 dias de garantia · Sem risco
-              </p>
             </div>
           </motion.div>
         </div>
@@ -382,12 +361,6 @@ export default function Home() {
 }
 
 /* ─── Data ───────────────────────────────────────────── */
-
-const stats = [
-  { value: '5.000+', label: 'alunos formados' },
-  { value: '35+', label: 'aulas em vídeo' },
-  { value: '80%', label: 'de desconto em passagens' },
-]
 
 const benefits = [
   {
@@ -443,9 +416,5 @@ const faqs = [
   {
     q: 'Funciona para voos internacionais?',
     a: 'Sim! O curso cobre tanto passagens nacionais quanto internacionais, e você aprenderá a emitir nos principais programas do mercado.',
-  },
-  {
-    q: 'E se eu não gostar do curso?',
-    a: 'Você tem 7 dias de garantia. Se não ficar satisfeito por qualquer motivo, basta entrar em contato para reembolso total.',
   },
 ]
