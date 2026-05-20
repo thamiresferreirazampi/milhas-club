@@ -81,11 +81,11 @@ function FlightPath() {
       fill="none"
       preserveAspectRatio="xMidYMid slice"
     >
-      <path d="M 30 420 Q 450 40 870 360" stroke="#1E6BFF" strokeWidth="1" strokeDasharray="8 7" opacity="0.25" />
+      <path d="M 30 420 Q 450 40 870 360" stroke="#2563EB" strokeWidth="1" strokeDasharray="8 7" opacity="0.25" />
       <path d="M 0 310 Q 350 70 820 270" stroke="white" strokeWidth="0.7" strokeDasharray="5 9" opacity="0.08" />
-      <path d="M 80 490 Q 520 90 880 430" stroke="#4D8DFF" strokeWidth="0.6" strokeDasharray="4 12" opacity="0.15" />
-      <circle cx="30" cy="420" r="3.5" fill="#1E6BFF" opacity="0.5" />
-      <circle cx="870" cy="360" r="3.5" fill="#1E6BFF" opacity="0.5" />
+      <path d="M 80 490 Q 520 90 880 430" stroke="#3B82F6" strokeWidth="0.6" strokeDasharray="4 12" opacity="0.15" />
+      <circle cx="30" cy="420" r="3.5" fill="#2563EB" opacity="0.5" />
+      <circle cx="870" cy="360" r="3.5" fill="#2563EB" opacity="0.5" />
       <circle cx="0" cy="310" r="2.5" fill="white" opacity="0.2" />
       <circle cx="820" cy="270" r="2.5" fill="white" opacity="0.2" />
     </svg>
@@ -122,7 +122,7 @@ export default function Home() {
       </header>
 
       {/* ── HERO ── */}
-      <section className="relative pt-24 pb-36 px-5 overflow-hidden bg-brand-black" style={{ background: 'radial-gradient(ellipse at 60% 0%, #0d1f4d 0%, #0B0B0F 60%)' }}>
+      <section className="relative pt-24 pb-36 px-5 overflow-hidden bg-brand-black" style={{ background: 'radial-gradient(ellipse at 60% 0%, #162044 0%, #0E1117 60%)' }}>
         <FlightPath />
 
         {/* Avião decorativo */}
@@ -207,20 +207,21 @@ export default function Home() {
                 key={b.title}
                 variants={fadeUp}
                 whileHover={{
-                  y: -4,
-                  backgroundColor: '#1C1F26',
-                  borderColor: '#1E6BFF',
-                  boxShadow: '0 12px 30px rgba(30, 107, 255, 0.15)',
+                  y: -2,
+                  backgroundColor: '#212838',
+                  borderColor: '#3B82F6',
+                  boxShadow: '0 12px 30px rgba(37, 99, 235, 0.15)',
                 }}
                 transition={{ duration: 0.3, ease: 'easeOut' }}
                 style={{
-                  background: '#16181D',
-                  borderColor: '#2A2F3A',
+                  background: '#1A1F2B',
+                  borderColor: '#2E3548',
                   borderRadius: '16px',
                   padding: '32px',
                   borderWidth: '1px',
                   borderStyle: 'solid',
-                  boxShadow: '0 8px 20px rgba(0, 0, 0, 0.25)',
+                  boxShadow: '0 8px 24px rgba(0, 0, 0, 0.25)',
+                  transition: 'all 0.25s ease',
                 }}
               >
                 <div className="w-12 h-12 flex items-center justify-center mb-5">

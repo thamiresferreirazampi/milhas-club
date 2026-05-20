@@ -2,15 +2,16 @@
 
 import { useEffect, useState } from 'react'
 import { supabase } from '@/lib/supabase'
+import { Plane } from 'lucide-react'
 
 export default function PerfilPage() {
-  const [user, setUser] = useState<any>(null)
+  const [user, setUser]   = useState<any>(null)
   const [loading, setLoading] = useState(true)
 
   const [currentPassword, setCurrentPassword] = useState('')
-  const [newPassword, setNewPassword] = useState('')
+  const [newPassword, setNewPassword]         = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
-  const [saving, setSaving] = useState(false)
+  const [saving, setSaving]   = useState(false)
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null)
 
   useEffect(() => {
@@ -64,114 +65,128 @@ export default function PerfilPage() {
   }
 
   if (loading) {
-    return <main className="min-h-screen bg-blue-50 flex items-center justify-center"><p className="text-gray-500">Carregando...</p></main>
+    return (
+      <main className="min-h-screen bg-brand-black flex items-center justify-center">
+        <div className="w-7 h-7 rounded-full border-2 border-brand-blue border-t-transparent animate-spin" />
+      </main>
+    )
   }
 
   const memberSince = new Date(user.created_at).toLocaleDateString('pt-BR', {
-    month: 'long',
-    year: 'numeric',
+    month: 'long', year: 'numeric',
   })
 
+  const inputClass = "w-full px-4 py-3 rounded-xl text-sm text-white placeholder-brand-gray-light outline-none transition-all"
+  const inputStyle = { background: '#111827', border: '1px solid #2E3548' }
+
   return (
-    <main className="min-h-screen bg-blue-50">
-      <header className="bg-white shadow-sm">
+    <main className="min-h-screen bg-brand-black">
+      <header className="bg-brand-card border-b border-brand-border">
         <div className="max-w-3xl mx-auto px-4 py-3 flex justify-between items-center">
-          <a href="/dashboard" className="text-xl font-bold text-blue-600">Milhas Club</a>
-          <a href="/dashboard" className="text-sm text-gray-500 hover:text-gray-700">← Dashboard</a>
+          <a href="/" className="flex items-center gap-2.5">
+            <div className="w-7 h-7 bg-brand-blue rounded-lg flex items-center justify-center">
+              <Plane className="w-3.5 h-3.5 text-white -rotate-45" />
+            </div>
+            <span className="font-extrabold text-white text-base tracking-tight">
+              Milhas<span className="text-brand-blue">Club</span>
+            </span>
+          </a>
+          <a href="/dashboard" className="text-sm text-brand-gray-light hover:text-white transition-colors">← Dashboard</a>
         </div>
       </header>
 
-      <div className="max-w-3xl mx-auto px-4 py-8 space-y-6">
+      <div className="max-w-3xl mx-auto px-4 py-8 space-y-5">
+
         {/* Info da conta */}
-        <div className="bg-white rounded-2xl shadow-sm p-6">
-          <h2 className="text-lg font-bold text-gray-900 mb-4">Minha conta</h2>
+        <div style={{ background: '#1A1F2B', border: '1px solid #2E3548', borderRadius: 16, padding: 24 }}>
+          <h2 className="text-xl text-white mb-5">Minha conta</h2>
           <div className="flex items-center gap-4 mb-6">
-            <div className="w-14 h-14 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold text-xl">
+            <div
+              className="w-14 h-14 rounded-full flex items-center justify-center text-white font-bold text-xl"
+              style={{ background: 'linear-gradient(135deg, #2563EB, #3B82F6)' }}
+            >
               {user.email?.[0]?.toUpperCase()}
             </div>
             <div>
-              <p className="font-semibold text-gray-900">{user.email}</p>
-              <p className="text-sm text-gray-400">Membro desde {memberSince}</p>
+              <p className="font-semibold text-white">{user.email}</p>
+              <p className="text-sm text-brand-gray-light">Membro desde {memberSince}</p>
             </div>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="bg-gray-50 rounded-xl p-4">
-              <p className="text-xs text-gray-400 mb-1">E-mail</p>
-              <p className="text-sm font-medium text-gray-900">{user.email}</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div style={{ background: '#212838', border: '1px solid #2E3548', borderRadius: 12, padding: 16 }}>
+              <p className="text-xs text-brand-gray-light mb-1">E-mail</p>
+              <p className="text-sm font-medium text-white">{user.email}</p>
             </div>
-            <div className="bg-gray-50 rounded-xl p-4">
-              <p className="text-xs text-gray-400 mb-1">Plano</p>
-              <p className="text-sm font-medium text-green-600">Acesso vitalício ✓</p>
+            <div style={{ background: '#212838', border: '1px solid #2E3548', borderRadius: 12, padding: 16 }}>
+              <p className="text-xs text-brand-gray-light mb-1">Plano</p>
+              <p className="text-sm font-medium text-brand-success">Acesso vitalício ✓</p>
             </div>
           </div>
         </div>
 
-        {/* Troca de senha */}
-        <div className="bg-white rounded-2xl shadow-sm p-6">
-          <h2 className="text-lg font-bold text-gray-900 mb-1">Alterar senha</h2>
-          <p className="text-sm text-gray-400 mb-6">Escolha uma senha com pelo menos 6 caracteres.</p>
+        {/* Alterar senha */}
+        <div style={{ background: '#1A1F2B', border: '1px solid #2E3548', borderRadius: 16, padding: 24 }}>
+          <h2 className="text-xl text-white mb-1">Alterar senha</h2>
+          <p className="text-sm text-brand-gray-light mb-6">Escolha uma senha com pelo menos 6 caracteres.</p>
 
           {message && (
-            <div className={`mb-4 px-4 py-3 rounded-lg text-sm ${message.type === 'success' ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-600'}`}>
+            <div
+              className={`mb-4 px-4 py-3 rounded-xl text-sm ${
+                message.type === 'success' ? 'text-brand-success' : 'text-brand-error'
+              }`}
+              style={{
+                background: message.type === 'success' ? 'rgba(34,197,94,0.1)' : 'rgba(239,68,68,0.1)',
+                border: `1px solid ${message.type === 'success' ? 'rgba(34,197,94,0.2)' : 'rgba(239,68,68,0.2)'}`,
+              }}
+            >
               {message.text}
             </div>
           )}
 
           <form onSubmit={handleChangePassword} className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Senha atual</label>
-              <input
-                type="password"
-                required
-                value={currentPassword}
-                onChange={e => setCurrentPassword(e.target.value)}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Nova senha</label>
-              <input
-                type="password"
-                required
-                value={newPassword}
-                onChange={e => setNewPassword(e.target.value)}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Confirmar nova senha</label>
-              <input
-                type="password"
-                required
-                value={confirmPassword}
-                onChange={e => setConfirmPassword(e.target.value)}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
+            {[
+              { label: 'Senha atual', value: currentPassword, setter: setCurrentPassword },
+              { label: 'Nova senha', value: newPassword, setter: setNewPassword },
+              { label: 'Confirmar nova senha', value: confirmPassword, setter: setConfirmPassword },
+            ].map(({ label, value, setter }) => (
+              <div key={label}>
+                <label className="block text-xs font-bold text-brand-gray-light mb-1.5 uppercase tracking-widest">
+                  {label}
+                </label>
+                <input
+                  type="password"
+                  required
+                  value={value}
+                  onChange={e => setter(e.target.value)}
+                  className={inputClass}
+                  style={inputStyle}
+                />
+              </div>
+            ))}
+
             <button
               type="submit"
               disabled={saving}
-              className="w-full bg-blue-600 text-white py-2.5 rounded-lg text-sm font-medium hover:bg-blue-700 disabled:opacity-50 transition-colors"
+              className="w-full bg-brand-blue hover:bg-brand-blue-hover text-white py-3 rounded-xl text-sm font-bold transition-all disabled:opacity-50"
             >
               {saving ? 'Salvando...' : 'Alterar senha'}
             </button>
           </form>
         </div>
 
-        {/* Zona de perigo */}
-        <div className="bg-white rounded-2xl shadow-sm p-6">
-          <h2 className="text-lg font-bold text-gray-900 mb-1">Sessão</h2>
-          <p className="text-sm text-gray-400 mb-4">Encerrar sua sessão em todos os dispositivos.</p>
+        {/* Sessão */}
+        <div style={{ background: '#1A1F2B', border: '1px solid #2E3548', borderRadius: 16, padding: 24 }}>
+          <h2 className="text-xl text-white mb-1">Sessão</h2>
+          <p className="text-sm text-brand-gray-light mb-4">Encerrar sua sessão em todos os dispositivos.</p>
           <button
-            onClick={async () => {
-              await supabase.auth.signOut()
-              window.location.href = '/'
-            }}
-            className="text-sm text-red-500 border border-red-200 px-4 py-2 rounded-lg hover:bg-red-50 transition-colors"
+            onClick={async () => { await supabase.auth.signOut(); window.location.href = '/' }}
+            className="text-sm text-brand-error border px-4 py-2 rounded-xl transition-colors hover:bg-brand-error/10"
+            style={{ borderColor: 'rgba(239,68,68,0.3)' }}
           >
             Sair da conta
           </button>
         </div>
+
       </div>
     </main>
   )
