@@ -5,72 +5,59 @@
 @tailwind utilities;
 
 :root {
-  --primary:           #1D6FFF;
-  --primary-hover:     #3B82FF;
-  --primary-light:     #60A5FA;
-  --primary-glow:      rgba(29, 111, 255, 0.35);
-  --bg-main:           #081224;
-  --bg-section:        #0B1730;
-  --bg-card:           #14213D;
-  --bg-card-hover:     #1B2B4F;
-  --bg-card-highlight: #203764;
-  --border:            #2F4E85;
-  --border-hover:      #4F7DFF;
-  --text-primary:      #FFFFFF;
-  --text-secondary:    #EAF2FF;
-  --text-muted:        #B9C8E6;
-  --success:           #22C55E;
-  --warning:           #F59E0B;
-  --error:             #EF4444;
-  --shadow-card:       0 12px 40px rgba(0, 0, 0, 0.35);
-  --shadow-hover:      0 20px 50px rgba(29, 111, 255, 0.22);
+  --blue-primary:    #006BFF;
+  --blue-hover:      #0057D9;
+  --blue-dark:       #071A3D;
+  --blue-soft:       #EAF3FF;
+  --sky-soft:        #F5FAFF;
+  --white:           #FFFFFF;
+  --off-white:       #F8FBFF;
+  --text-primary:    #071A3D;
+  --text-secondary:  #334155;
+  --text-muted:      #64748B;
+  --border-light:    #D8E8FF;
+  --shadow-blue:     rgba(0, 107, 255, 0.14);
 }
 
 html {
-  background: #081224;
+  background: #FFFFFF;
 }
 
 body {
   font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
-  color: #FFFFFF;
-  min-height: 100vh;
-  background:
-    radial-gradient(ellipse at 50% 0%, rgba(29, 111, 255, 0.18) 0%, transparent 55%),
-    linear-gradient(180deg, #0B1730 0%, #081224 100%);
-  background-attachment: fixed;
+  background: #FFFFFF;
+  color: #071A3D;
 }
 
 h1, h2, h3, h4 {
   font-family: 'Bebas Neue', 'Plus Jakarta Sans', system-ui, sans-serif;
   letter-spacing: 0.02em;
-  color: #FFFFFF;
+  color: #071A3D;
 }
 
 p {
-  color: #EAF2FF;
+  color: #334155;
 }
 
-/* Inputs globais */
 input, textarea, select {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid #2F4E85;
-  color: #FFFFFF;
-  border-radius: 12px;
+  background: #FFFFFF;
+  border: 1px solid #D8E8FF;
+  color: #071A3D;
+  border-radius: 10px;
   transition: border-color 0.25s ease, box-shadow 0.25s ease;
 }
 
 input::placeholder, textarea::placeholder {
-  color: #B9C8E6;
+  color: #64748B;
 }
 
 input:focus, textarea:focus, select:focus {
   outline: none;
-  border-color: #1D6FFF;
-  box-shadow: 0 0 0 4px rgba(29, 111, 255, 0.18);
+  border-color: #006BFF;
+  box-shadow: 0 0 0 3px rgba(0, 107, 255, 0.15);
 }
 
-/* Scrollbar discreta */
 ::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: #081224; }
-::-webkit-scrollbar-thumb { background: #2F4E85; border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: #1D6FFF; }
+::-webkit-scrollbar-track { background: #F8FBFF; }
+::-webkit-scrollbar-thumb { background: #D8E8FF; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #006BFF; }

@@ -9,35 +9,32 @@ module.exports = {
     extend: {
       colors: {
         brand: {
-          blue:             '#1D6FFF',
-          'blue-hover':     '#3B82FF',
-          'blue-light':     '#60A5FA',
-          black:            '#081224',
-          section:          '#0B1730',
-          card:             '#14213D',
-          'card-hover':     '#1B2B4F',
-          'card-highlight': '#203764',
-          border:           '#2F4E85',
-          'border-hover':   '#4F7DFF',
-          gray:             '#6D7280',
-          'gray-light':     '#B9C8E6',
-          'text-secondary': '#EAF2FF',
-          success:          '#22C55E',
-          warning:          '#F59E0B',
-          error:            '#EF4444',
+          blue:        '#006BFF',   // azul vibrante principal
+          'blue-hover':'#0057D9',   // hover
+          'blue-dark': '#071A3D',   // logo, footer, títulos
+          'blue-soft': '#EAF3FF',   // fundo seções leves
+          sky:         '#F5FAFF',   // fundo hero / login
+          'off-white': '#F8FBFF',   // fundo app/dashboard
+          border:      '#D8E8FF',   // bordas claras
+          text:        '#071A3D',   // texto principal
+          'text-secondary': '#334155',
+          'text-muted': '#64748B',
+          success:     '#22C55E',
+          warning:     '#F59E0B',
+          error:       '#EF4444',
         },
         primary: {
-          500: '#1D6FFF',
-          600: '#3B82FF',
+          500: '#006BFF',
+          600: '#0057D9',
         },
       },
       fontFamily: {
         sans: ['Plus Jakarta Sans', 'system-ui', 'sans-serif'],
       },
       boxShadow: {
-        card:  '0 12px 40px rgba(0,0,0,0.35)',
-        hover: '0 20px 50px rgba(29,111,255,0.22)',
-        blue:  '0 10px 30px rgba(29,111,255,0.35)',
+        card:  '0 12px 35px rgba(0,107,255,0.10)',
+        hover: '0 20px 45px rgba(0,107,255,0.18)',
+        btn:   '0 10px 25px rgba(0,107,255,0.25)',
       },
     },
   },
