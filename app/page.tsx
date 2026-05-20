@@ -3,7 +3,7 @@
 import { motion, AnimatePresence, type Variants } from 'framer-motion'
 import {
   Plane, Target, Map, Lightbulb, Check,
-  ArrowRight, ChevronDown, Wind, Compass,
+  ArrowRight, ChevronDown,
 } from 'lucide-react'
 import { useState } from 'react'
 
@@ -30,21 +30,31 @@ function Section({ children, className = '' }: { children: React.ReactNode; clas
   )
 }
 
+function SectionLabel({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="flex items-center justify-center gap-3 mb-4">
+      <div className="h-px w-10 bg-orange-500" />
+      <span className="text-orange-500 text-xs font-bold uppercase tracking-[0.25em]">{children}</span>
+      <div className="h-px w-10 bg-orange-500" />
+    </div>
+  )
+}
+
 function FaqItem({ q, a }: { q: string; a: string }) {
   const [open, setOpen] = useState(false)
   return (
     <button
       onClick={() => setOpen(!open)}
-      className="w-full text-left bg-white border border-blue-100 rounded-2xl overflow-hidden transition-colors hover:border-blue-300"
+      className="w-full text-left bg-slate-800/50 border border-slate-700 rounded-2xl overflow-hidden transition-colors hover:border-orange-500/40"
     >
       <div className="flex items-center justify-between gap-4 px-6 py-5">
-        <span className="font-semibold text-gray-900 text-sm">{q}</span>
+        <span className="font-semibold text-white text-sm">{q}</span>
         <motion.span
           animate={{ rotate: open ? 180 : 0 }}
           transition={{ duration: 0.2 }}
           className="flex-shrink-0"
         >
-          <ChevronDown className={`w-4 h-4 transition-colors ${open ? 'text-blue-600' : 'text-gray-400'}`} />
+          <ChevronDown className={`w-4 h-4 transition-colors ${open ? 'text-orange-400' : 'text-slate-500'}`} />
         </motion.span>
       </div>
       <AnimatePresence initial={false}>
@@ -55,7 +65,7 @@ function FaqItem({ q, a }: { q: string; a: string }) {
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.25 }}
           >
-            <p className="px-6 pb-5 text-gray-500 text-sm leading-relaxed">{a}</p>
+            <p className="px-6 pb-5 text-slate-400 text-sm leading-relaxed">{a}</p>
           </motion.div>
         )}
       </AnimatePresence>
@@ -63,51 +73,47 @@ function FaqItem({ q, a }: { q: string; a: string }) {
   )
 }
 
-/* ─── Decoração de rota aérea ───────────────────────── */
 function FlightPath() {
   return (
     <svg
-      className="absolute inset-0 w-full h-full pointer-events-none opacity-10"
-      viewBox="0 0 800 500"
+      className="absolute inset-0 w-full h-full pointer-events-none"
+      viewBox="0 0 900 500"
       fill="none"
-      xmlns="http://www.w3.org/2000/svg"
       preserveAspectRatio="xMidYMid slice"
     >
-      {/* Arc route lines */}
-      <path d="M 50 400 Q 400 50 750 350" stroke="white" strokeWidth="1.5" strokeDasharray="8 6" />
-      <path d="M 0 300 Q 300 80 700 250" stroke="white" strokeWidth="1" strokeDasharray="6 8" />
-      <path d="M 100 480 Q 500 100 780 420" stroke="white" strokeWidth="1" strokeDasharray="4 10" />
-      {/* Destination dots */}
-      <circle cx="50" cy="400" r="4" fill="white" />
-      <circle cx="750" cy="350" r="4" fill="white" />
-      <circle cx="0" cy="300" r="3" fill="white" />
-      <circle cx="700" cy="250" r="3" fill="white" />
+      <path d="M 30 420 Q 450 40 870 360" stroke="#f97316" strokeWidth="1" strokeDasharray="8 7" opacity="0.2" />
+      <path d="M 0 310 Q 350 70 820 270" stroke="white" strokeWidth="0.7" strokeDasharray="5 9" opacity="0.08" />
+      <path d="M 80 490 Q 520 90 880 430" stroke="#f97316" strokeWidth="0.6" strokeDasharray="4 12" opacity="0.12" />
+      <circle cx="30" cy="420" r="3.5" fill="#f97316" opacity="0.4" />
+      <circle cx="870" cy="360" r="3.5" fill="#f97316" opacity="0.4" />
+      <circle cx="0" cy="310" r="2.5" fill="white" opacity="0.2" />
+      <circle cx="820" cy="270" r="2.5" fill="white" opacity="0.2" />
     </svg>
   )
 }
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-white overflow-x-hidden">
+    <main className="min-h-screen bg-gray-950 overflow-x-hidden">
 
       {/* ── HEADER ── */}
-      <header className="border-b border-blue-900/20 sticky top-0 z-30 bg-blue-950/95 backdrop-blur-md">
+      <header className="border-b border-slate-800 sticky top-0 z-30 bg-gray-950/95 backdrop-blur-md">
         <div className="max-w-5xl mx-auto px-5 py-4 flex justify-between items-center">
           <a href="/" className="flex items-center gap-2.5">
-            <div className="w-8 h-8 bg-amber-400 rounded-xl flex items-center justify-center shadow-sm flex-shrink-0">
-              <Plane className="w-4 h-4 text-blue-950 -rotate-45" />
+            <div className="w-8 h-8 bg-orange-500 rounded-xl flex items-center justify-center flex-shrink-0">
+              <Plane className="w-4 h-4 text-white -rotate-45" />
             </div>
             <span className="text-lg font-extrabold text-white tracking-tight">
-              Milhas<span className="text-amber-400">Club</span>
+              Milhas<span className="text-orange-500">Club</span>
             </span>
           </a>
           <div className="flex items-center gap-3">
-            <a href="/login" className="text-blue-200 text-sm hover:text-white transition-colors hidden sm:block">
+            <a href="/login" className="text-slate-400 text-sm hover:text-white transition-colors hidden sm:block">
               Entrar
             </a>
             <a
               href="/pricing"
-              className="bg-amber-400 hover:bg-amber-300 text-blue-950 px-5 py-2 rounded-full text-sm font-bold transition-colors"
+              className="bg-orange-500 hover:bg-orange-400 text-white px-5 py-2 rounded-full text-sm font-bold transition-colors"
             >
               Começar agora
             </a>
@@ -116,35 +122,36 @@ export default function Home() {
       </header>
 
       {/* ── HERO ── */}
-      <section className="relative bg-gradient-to-br from-blue-950 via-blue-900 to-blue-800 pt-24 pb-36 px-5 overflow-hidden">
+      <section className="relative pt-24 pb-36 px-5 overflow-hidden bg-gradient-to-br from-gray-950 via-slate-900 to-gray-950">
         <FlightPath />
 
-        {/* Plano decorativo gigante */}
-        <div className="absolute right-[-60px] top-1/2 -translate-y-1/2 opacity-[0.07] pointer-events-none select-none">
-          <Plane className="w-[480px] h-[480px] text-white -rotate-12" />
+        {/* Avião decorativo */}
+        <div className="absolute right-[-80px] top-1/2 -translate-y-1/2 opacity-[0.035] pointer-events-none select-none">
+          <Plane className="w-[560px] h-[560px] text-white -rotate-12" />
         </div>
 
         <div className="relative max-w-3xl mx-auto text-center">
           <motion.div initial="hidden" animate="visible" variants={stagger}>
 
             <motion.div variants={fadeUp} className="flex items-center justify-center gap-2 mb-8">
-              <Plane className="w-4 h-4 text-amber-400 -rotate-45" />
-              <span className="text-amber-400 text-xs font-bold uppercase tracking-[0.2em]">
+              <Plane className="w-3.5 h-3.5 text-orange-500 -rotate-45" />
+              <span className="text-orange-500 text-xs font-bold uppercase tracking-[0.3em]">
                 Curso de milhas aéreas
               </span>
+              <Plane className="w-3.5 h-3.5 text-orange-500 rotate-45 scale-x-[-1]" />
             </motion.div>
 
             <motion.h1
               variants={fadeUp}
-              className="text-5xl md:text-6xl lg:text-[5rem] font-black text-white leading-[1.05] tracking-tight mb-6"
+              className="text-7xl md:text-8xl lg:text-9xl text-white leading-none mb-6"
             >
               Viaje mais,<br />
-              <span className="text-amber-400">gaste muito menos.</span>
+              <span className="text-orange-500">gaste muito menos.</span>
             </motion.h1>
 
             <motion.p
               variants={fadeUp}
-              className="text-lg md:text-xl text-blue-200 mb-10 max-w-xl mx-auto leading-relaxed"
+              className="text-lg md:text-xl text-slate-400 mb-10 max-w-xl mx-auto leading-relaxed"
             >
               O método passo a passo para acumular milhas e emitir passagens
               com até <strong className="text-white font-bold">80% de desconto</strong> — mesmo começando do zero.
@@ -156,13 +163,13 @@ export default function Home() {
             >
               <a
                 href="/pricing"
-                className="inline-flex items-center gap-2 bg-amber-400 hover:bg-amber-300 text-blue-950 px-8 py-4 rounded-full text-base font-black shadow-2xl shadow-amber-900/40 transition-colors w-full sm:w-auto justify-center"
+                className="inline-flex items-center gap-2 bg-orange-500 hover:bg-orange-400 text-white px-8 py-4 rounded-full text-base font-bold shadow-2xl shadow-orange-900/30 transition-colors w-full sm:w-auto justify-center"
               >
                 Garantir meu acesso <ArrowRight className="w-4 h-4" />
               </a>
               <a
                 href="/login"
-                className="inline-flex items-center gap-2 border border-blue-600 text-blue-200 px-8 py-4 rounded-full text-base font-semibold hover:border-blue-400 hover:text-white transition-colors w-full sm:w-auto justify-center"
+                className="inline-flex items-center gap-2 border border-slate-700 text-slate-300 px-8 py-4 rounded-full text-base font-semibold hover:border-slate-500 hover:text-white transition-colors w-full sm:w-auto justify-center"
               >
                 Já tenho conta
               </a>
@@ -170,46 +177,42 @@ export default function Home() {
 
             <motion.p
               variants={fadeUp}
-              className="text-sm text-blue-300 flex items-center justify-center gap-3 flex-wrap"
+              className="text-sm text-slate-600 flex items-center justify-center gap-3"
             >
               <span>Acesso imediato</span>
-              <span className="text-blue-700">·</span>
+              <span>·</span>
               <span>Pagamento seguro</span>
             </motion.p>
 
           </motion.div>
         </div>
 
-        {/* Borda de transição suave */}
-        <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-white to-transparent" />
+        <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-gray-950 to-transparent" />
       </section>
 
       {/* ── O QUE VOCÊ APRENDE ── */}
-      <Section className="py-24 px-5 bg-blue-50">
+      <Section className="py-24 px-5 bg-slate-900">
         <div className="max-w-5xl mx-auto">
           <motion.div variants={fadeUp} className="text-center mb-14">
-            <div className="flex items-center justify-center gap-2 mb-3">
-              <Compass className="w-4 h-4 text-blue-600" />
-              <span className="text-blue-600 text-xs font-bold uppercase tracking-[0.15em]">Conteúdo do curso</span>
-            </div>
-            <h2 className="text-3xl md:text-5xl font-black text-blue-950">
+            <SectionLabel>Conteúdo do curso</SectionLabel>
+            <h2 className="text-5xl md:text-6xl text-white">
               O que você vai aprender
             </h2>
-            <p className="text-gray-500 mt-3 text-lg">Do básico ao avançado, em ordem lógica</p>
+            <p className="text-slate-400 mt-3 font-light">Do básico ao avançado, em ordem lógica</p>
           </motion.div>
 
-          <motion.div variants={stagger} className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          <motion.div variants={stagger} className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {benefits.map((b) => (
               <motion.div
                 key={b.title}
                 variants={fadeUp}
-                className="bg-white rounded-2xl p-7 border border-blue-100 shadow-sm"
+                className="bg-gray-950/60 rounded-2xl p-7 border border-slate-700/50 hover:border-orange-500/30 transition-colors group"
               >
-                <div className="w-12 h-12 bg-blue-900 rounded-xl flex items-center justify-center mb-5">
-                  <b.Icon className="w-5 h-5 text-amber-400" />
+                <div className="w-12 h-12 bg-orange-500/10 border border-orange-500/20 rounded-xl flex items-center justify-center mb-5 group-hover:bg-orange-500/20 transition-colors">
+                  <b.Icon className="w-5 h-5 text-orange-400" />
                 </div>
-                <h3 className="font-black text-blue-950 mb-2 text-base">{b.title}</h3>
-                <p className="text-gray-500 text-sm leading-relaxed">{b.description}</p>
+                <h3 className="text-white mb-2 text-2xl">{b.title}</h3>
+                <p className="text-slate-400 text-sm leading-relaxed font-light">{b.description}</p>
               </motion.div>
             ))}
           </motion.div>
@@ -217,14 +220,11 @@ export default function Home() {
       </Section>
 
       {/* ── COMO FUNCIONA ── */}
-      <Section className="py-24 px-5 bg-white">
+      <Section className="py-24 px-5 bg-gray-950">
         <div className="max-w-2xl mx-auto">
           <motion.div variants={fadeUp} className="text-center mb-14">
-            <div className="flex items-center justify-center gap-2 mb-3">
-              <Wind className="w-4 h-4 text-blue-600" />
-              <span className="text-blue-600 text-xs font-bold uppercase tracking-[0.15em]">Simples assim</span>
-            </div>
-            <h2 className="text-3xl md:text-5xl font-black text-blue-950">Como funciona</h2>
+            <SectionLabel>Simples assim</SectionLabel>
+            <h2 className="text-5xl md:text-6xl text-white">Como funciona</h2>
           </motion.div>
 
           <motion.div variants={stagger} className="space-y-3">
@@ -232,14 +232,14 @@ export default function Home() {
               <motion.div
                 key={i}
                 variants={fadeUp}
-                className="flex gap-5 items-start bg-blue-50 rounded-2xl p-6 border border-blue-100"
+                className="flex gap-5 items-start bg-slate-800/30 rounded-2xl p-6 border border-slate-700/50 hover:border-orange-500/30 transition-colors"
               >
-                <div className="w-10 h-10 bg-blue-900 text-amber-400 rounded-xl flex items-center justify-center font-black text-sm flex-shrink-0">
+                <div className="w-10 h-10 bg-orange-500 text-white rounded-xl flex items-center justify-center font-black text-sm flex-shrink-0 shadow-lg shadow-orange-900/40">
                   {i + 1}
                 </div>
                 <div className="pt-0.5">
-                  <h3 className="font-bold text-blue-950 mb-1">{step.title}</h3>
-                  <p className="text-gray-500 text-sm leading-relaxed">{step.description}</p>
+                  <h3 className="text-white mb-1 text-2xl">{step.title}</h3>
+                  <p className="text-slate-400 text-sm leading-relaxed font-light">{step.description}</p>
                 </div>
               </motion.div>
             ))}
@@ -248,18 +248,18 @@ export default function Home() {
       </Section>
 
       {/* ── O QUE ESTÁ INCLUSO ── */}
-      <Section className="py-24 px-5 bg-blue-950 relative overflow-hidden">
-        {/* Decoração */}
-        <div className="absolute right-0 bottom-0 opacity-[0.05] pointer-events-none">
-          <Plane className="w-96 h-96 text-white rotate-12" />
+      <Section className="py-24 px-5 bg-slate-900 relative overflow-hidden">
+        <div className="absolute right-[-40px] bottom-[-40px] opacity-[0.03] pointer-events-none">
+          <Plane className="w-80 h-80 text-white rotate-12" />
         </div>
 
         <div className="relative max-w-3xl mx-auto text-center">
           <motion.div variants={fadeUp} className="mb-14">
-            <h2 className="text-3xl md:text-4xl font-black text-white mb-2">
+            <SectionLabel>Tudo incluso</SectionLabel>
+            <h2 className="text-5xl md:text-6xl text-white mb-2">
               Um pagamento, acesso para sempre
             </h2>
-            <p className="text-blue-300">Sem mensalidade. Sem surpresa.</p>
+            <p className="text-slate-400 font-light">Sem mensalidade. Sem surpresa.</p>
           </motion.div>
 
           <motion.div variants={stagger} className="grid grid-cols-2 md:grid-cols-3 gap-3 mb-12 text-left">
@@ -267,12 +267,12 @@ export default function Home() {
               <motion.div
                 key={item}
                 variants={fadeUp}
-                className="flex items-center gap-3 bg-blue-900/50 rounded-xl px-4 py-3.5 border border-blue-800"
+                className="flex items-center gap-3 bg-gray-950/60 rounded-xl px-4 py-3.5 border border-slate-700/50"
               >
-                <span className="w-5 h-5 bg-amber-400 rounded-full flex items-center justify-center flex-shrink-0">
-                  <Check className="w-3 h-3 text-blue-950" />
+                <span className="w-5 h-5 bg-orange-500 rounded-full flex items-center justify-center flex-shrink-0">
+                  <Check className="w-3 h-3 text-white" />
                 </span>
-                <span className="text-sm font-semibold text-blue-100">{item}</span>
+                <span className="text-sm font-medium text-slate-200">{item}</span>
               </motion.div>
             ))}
           </motion.div>
@@ -280,7 +280,7 @@ export default function Home() {
           <motion.div variants={fadeUp}>
             <a
               href="/pricing"
-              className="inline-flex items-center gap-2 bg-amber-400 hover:bg-amber-300 text-blue-950 px-8 py-4 rounded-full font-black shadow-2xl shadow-black/30 transition-colors"
+              className="inline-flex items-center gap-2 bg-orange-500 hover:bg-orange-400 text-white px-8 py-4 rounded-full font-bold shadow-2xl shadow-orange-900/30 transition-colors"
             >
               Ver planos e preços <ArrowRight className="w-4 h-4" />
             </a>
@@ -289,10 +289,11 @@ export default function Home() {
       </Section>
 
       {/* ── FAQ ── */}
-      <Section className="py-24 px-5 bg-blue-50">
+      <Section className="py-24 px-5 bg-gray-950">
         <div className="max-w-2xl mx-auto">
           <motion.div variants={fadeUp} className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-black text-blue-950">Perguntas frequentes</h2>
+            <SectionLabel>Dúvidas</SectionLabel>
+            <h2 className="text-5xl md:text-6xl text-white">Perguntas frequentes</h2>
           </motion.div>
 
           <motion.div variants={stagger} className="space-y-3">
@@ -306,46 +307,42 @@ export default function Home() {
       </Section>
 
       {/* ── CTA FINAL ── */}
-      <Section className="py-24 px-5 bg-white">
-        <div className="max-w-2xl mx-auto">
-          <motion.div
-            variants={fadeUp}
-            className="bg-gradient-to-br from-blue-950 to-blue-800 rounded-3xl p-12 md:p-16 text-center relative overflow-hidden"
-          >
-            <div className="absolute inset-0 opacity-[0.08] pointer-events-none">
-              <FlightPath />
+      <Section className="py-24 px-5 bg-orange-500 relative overflow-hidden">
+        <div className="absolute inset-0 opacity-10 pointer-events-none">
+          <FlightPath />
+        </div>
+        <div className="relative max-w-2xl mx-auto text-center">
+          <motion.div variants={fadeUp}>
+            <div className="flex items-center justify-center gap-2 mb-6">
+              <Plane className="w-5 h-5 text-white/80 -rotate-45" />
+              <span className="text-white/80 text-xs font-bold uppercase tracking-[0.25em]">Embarque agora</span>
+              <Plane className="w-5 h-5 text-white/80 rotate-45 scale-x-[-1]" />
             </div>
-            <div className="relative">
-              <div className="flex items-center justify-center gap-2 mb-6">
-                <Plane className="w-5 h-5 text-amber-400 -rotate-45" />
-                <span className="text-amber-400 text-xs font-bold uppercase tracking-[0.2em]">Embarque agora</span>
-              </div>
-              <h2 className="text-3xl md:text-5xl font-black text-white mb-4 leading-tight">
-                Pronto para viajar<br />pagando muito menos?
-              </h2>
-              <p className="text-blue-200 mb-10 text-lg">
-                Acesso imediato assim que o pagamento for confirmado.
-              </p>
-              <a
-                href="/pricing"
-                className="inline-flex items-center gap-2 bg-amber-400 hover:bg-amber-300 text-blue-950 px-8 py-4 rounded-full text-base font-black shadow-2xl shadow-black/30 transition-colors"
-              >
-                Garantir meu acesso agora <ArrowRight className="w-4 h-4" />
-              </a>
-            </div>
+            <h2 className="text-5xl md:text-7xl text-white mb-4 leading-none">
+              Pronto para viajar pagando muito menos?
+            </h2>
+            <p className="text-white/70 mb-10 text-lg font-light">
+              Acesso imediato assim que o pagamento for confirmado.
+            </p>
+            <a
+              href="/pricing"
+              className="inline-flex items-center gap-2 bg-gray-950 hover:bg-slate-900 text-white px-8 py-4 rounded-full text-base font-bold shadow-2xl transition-colors"
+            >
+              Garantir meu acesso agora <ArrowRight className="w-4 h-4" />
+            </a>
           </motion.div>
         </div>
       </Section>
 
       {/* ── FOOTER ── */}
-      <footer className="bg-blue-950 border-t border-blue-900 text-blue-400 py-10 px-5">
+      <footer className="bg-gray-950 border-t border-slate-800 text-slate-500 py-10 px-5">
         <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-sm">
           <div className="flex items-center gap-2.5">
-            <div className="w-7 h-7 bg-amber-400 rounded-lg flex items-center justify-center flex-shrink-0">
-              <Plane className="w-3.5 h-3.5 text-blue-950 -rotate-45" />
+            <div className="w-7 h-7 bg-orange-500 rounded-lg flex items-center justify-center flex-shrink-0">
+              <Plane className="w-3.5 h-3.5 text-white -rotate-45" />
             </div>
             <span className="font-extrabold text-white tracking-tight">
-              Milhas<span className="text-amber-400">Club</span>
+              Milhas<span className="text-orange-500">Club</span>
             </span>
           </div>
           <p>© {new Date().getFullYear()} Milhas Club. Todos os direitos reservados.</p>
