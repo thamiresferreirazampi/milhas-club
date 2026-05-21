@@ -1,8 +1,9 @@
 import { NextResponse } from 'next/server'
 import Stripe from 'stripe'
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: '2026-04-22.dahlia'
+const stripe = new Stripe((process.env.STRIPE_SECRET_KEY ?? '').trim(), {
+  apiVersion: '2026-04-22.dahlia',
+  httpClient: Stripe.createFetchHttpClient(),
 })
 
 export async function POST(request: Request) {
@@ -15,12 +16,12 @@ export async function POST(request: Request) {
       customer_email: email,
       line_items: [
         {
-          price: process.env.STRIPE_PRICE_ID!,
+          price: (process.env.STRIPE_PRICE_ID ?? '').trim(),
           quantity: 1,
         },
       ],
-      success_url: process.env.NEXT_PUBLIC_APP_URL + '/sucesso',
-      cancel_url: process.env.NEXT_PUBLIC_APP_URL + '/pricing',
+      success_url: 'https://milhas-club.vercel.app/sucesso',
+      cancel_url: 'https://milhas-club.vercel.app/pricing',
     })
 
     return NextResponse.json({ url: session.url })
