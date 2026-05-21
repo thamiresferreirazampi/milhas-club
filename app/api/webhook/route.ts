@@ -27,10 +27,15 @@ export async function POST(request: Request) {
     const session = event.data.object as Stripe.Checkout.Session
     const email = session.customer_details?.email ?? session.customer_email
 
+    console.log('Webhook recebido - email:', email, 'session_id:', session.id)
+
     if (email) {
-      await supabaseAdmin
+      const { error } = await supabaseAdmin
         .from('user_access')
         .upsert({ email, stripe_session_id: session.id }, { onConflict: 'email' })
+      console.log('Supabase upsert resultado - erro:', error)
+    } else {
+      console.log('Email nulo - nenhum acesso liberado')
     }
   }
 
