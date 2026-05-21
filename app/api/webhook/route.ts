@@ -30,10 +30,11 @@ export async function POST(request: Request) {
     console.log('Webhook recebido - email:', email, 'session_id:', session.id)
 
     if (email) {
-      const { error } = await supabaseAdmin
+      const { data, error, status, statusText } = await supabaseAdmin
         .from('user_access')
         .upsert({ email, stripe_session_id: session.id }, { onConflict: 'email' })
-      console.log('Supabase upsert resultado - erro:', error)
+        .select()
+      console.log('Supabase upsert - data:', JSON.stringify(data), 'erro:', JSON.stringify(error), 'status:', status, statusText)
     } else {
       console.log('Email nulo - nenhum acesso liberado')
     }
