@@ -72,6 +72,9 @@ export default function AdminPage() {
 
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
+  const [uploading, setUploading] = useState(false)
+  const [uploadProgress, setUploadProgress] = useState(0)
+  const [pageError, setPageError] = useState('')
 
   async function authHeaders(): Promise<Record<string, string>> {
     const { data: { session } } = await supabase.auth.getSession()
@@ -80,12 +83,26 @@ export default function AdminPage() {
   }
 
   useEffect(() => {
+    const timeout = setTimeout(() => {
+      setPageError('Tempo esgotado ao conectar. Recarregue a página ou faça login novamente.')
+      setLoading(false)
+    }, 8000)
+
     async function check() {
-      const { data: { user } } = await supabase.auth.getUser()
-      if (!user) { window.location.href = '/login'; return }
-      fetchAll()
+      try {
+        const { data: { user } } = await supabase.auth.getUser()
+        clearTimeout(timeout)
+        if (!user) { window.location.href = '/login'; return }
+        await fetchAll()
+      } catch (e) {
+        clearTimeout(timeout)
+        setPageError('Erro ao verificar sessão: ' + String(e))
+        setLoading(false)
+      }
     }
     check()
+
+    return () => clearTimeout(timeout)
   }, [])
 
   async function fetchAll() {
@@ -103,6 +120,7 @@ export default function AdminPage() {
       if (stuRes.ok) setStudents(await stuRes.json())
     } catch (e) {
       console.error('fetchAll error:', e)
+      setPageError(String(e))
     } finally {
       setLoading(false)
     }
@@ -201,6 +219,57 @@ export default function AdminPage() {
     await fetchAll()
   }
 
+  // ── Upload de vídeo ───────────────────────────────────────────────────────
+
+  async function handleVideoUpload(file: File) {
+    setUploading(true)
+    setUploadProgress(0)
+    setError('')
+    try {
+      const headers = await authHeaders()
+
+      // Passo 1: pede URL assinada ao servidor
+      const res = await fetch('/api/admin/upload-video', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', ...headers },
+        body: JSON.stringify({ filename: file.name, contentType: file.type }),
+      })
+      if (!res.ok) {
+        const d = await res.json()
+        setError(d.error || 'Erro ao iniciar upload')
+        return
+      }
+      const { signedUrl, publicUrl } = await res.json()
+
+      // Passo 2: envia o arquivo diretamente ao Supabase via XHR (com barra de progresso)
+      await new Promise<void>((resolve, reject) => {
+        const xhr = new XMLHttpRequest()
+        xhr.upload.onprogress = (e) => {
+          if (e.lengthComputable) {
+            setUploadProgress(Math.round((e.loaded / e.total) * 100))
+          }
+        }
+        xhr.onload = () => {
+          if (xhr.status >= 200 && xhr.status < 300) resolve()
+          else if (xhr.status === 413) reject(new Error('Arquivo muito grande. Aumente o limite no bucket do Supabase ou use um vídeo menor.'))
+          else reject(new Error(`Upload falhou (${xhr.status}): ${xhr.responseText}`))
+        }
+        xhr.onerror = () => reject(new Error('Erro de rede durante o upload'))
+        xhr.open('PUT', signedUrl)
+        xhr.setRequestHeader('Content-Type', file.type || 'video/mp4')
+        xhr.send(file)
+      })
+
+      setLessonForm(f => ({ ...f, video_url: publicUrl }))
+    } catch (e: unknown) {
+      setError(e instanceof Error ? e.message : 'Erro ao enviar vídeo. Tente novamente.')
+      console.error(e)
+    } finally {
+      setUploading(false)
+      setUploadProgress(0)
+    }
+  }
+
   // ── Alunos ────────────────────────────────────────────────────────────────
 
   async function addStudent() {
@@ -246,6 +315,12 @@ export default function AdminPage() {
       </header>
 
       <div className="max-w-5xl mx-auto px-4 py-6">
+        {/* Erro de carregamento */}
+        {pageError && (
+          <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700">
+            <strong>Erro:</strong> {pageError}
+          </div>
+        )}
         {/* Tabs */}
         <div className="flex gap-2 mb-6 border-b">
           {([
@@ -416,8 +491,8 @@ export default function AdminPage() {
 
       {/* ── MODAL MÓDULO ── */}
       {showModuleForm && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-xl shadow-xl w-full max-w-md">
+        <div style={{position:'fixed',inset:0,background:'rgba(0,0,0,0.5)',display:'flex',alignItems:'center',justifyContent:'center',zIndex:1000,padding:'16px'}}>
+          <div style={{background:'white',borderRadius:'12px',width:'100%',maxWidth:'448px',boxShadow:'0 20px 60px rgba(0,0,0,0.3)'}}>
             <div className="p-5 border-b flex justify-between items-center">
               <h3 className="font-semibold text-gray-900">{editingModuleId ? 'Editar módulo' : 'Novo módulo'}</h3>
               <button onClick={() => setShowModuleForm(false)} className="text-gray-400 hover:text-gray-600 text-xl leading-none">&times;</button>
@@ -453,8 +528,8 @@ export default function AdminPage() {
 
       {/* ── MODAL AULA ── */}
       {showLessonForm && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-xl shadow-xl w-full max-w-md max-h-[90vh] overflow-y-auto">
+        <div style={{position:'fixed',inset:0,background:'rgba(0,0,0,0.5)',display:'flex',alignItems:'center',justifyContent:'center',zIndex:1000,padding:'16px'}}>
+          <div style={{background:'white',borderRadius:'12px',width:'100%',maxWidth:'448px',maxHeight:'90vh',overflowY:'auto',boxShadow:'0 20px 60px rgba(0,0,0,0.3)'}}>
             <div className="p-5 border-b flex justify-between items-center sticky top-0 bg-white">
               <h3 className="font-semibold text-gray-900">{editingLessonId ? 'Editar aula' : 'Nova aula'}</h3>
               <button onClick={() => setShowLessonForm(false)} className="text-gray-400 hover:text-gray-600 text-xl leading-none">&times;</button>
@@ -473,8 +548,73 @@ export default function AdminPage() {
               <Field label="Descrição">
                 <textarea className={`${input} resize-none`} rows={3} value={lessonForm.description ?? ''} onChange={e => setLessonForm(f => ({ ...f, description: e.target.value }))} />
               </Field>
-              <Field label="URL do vídeo (YouTube)" required>
-                <input className={input} value={lessonForm.video_url ?? ''} onChange={e => setLessonForm(f => ({ ...f, video_url: e.target.value }))} placeholder="https://www.youtube.com/watch?v=..." />
+              <Field label="Vídeo da aula" required>
+                {lessonForm.video_url && lessonForm.video_url.length > 0 ? (
+                  /* Vídeo já definido */
+                  <div className="flex items-center gap-2 p-3 bg-green-50 border border-green-200 rounded-lg">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#16a34a" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0">
+                      <path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.41 19.1C5.12 19.56 12 19.56 12 19.56s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.95 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/>
+                      <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/>
+                    </svg>
+                    <span className="text-xs text-green-700 flex-1 truncate" title={lessonForm.video_url}>
+                      {(lessonForm.video_url ?? '').includes('supabase') ? '✓ Vídeo enviado' : lessonForm.video_url}
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => setLessonForm(f => ({ ...f, video_url: '' }))}
+                      className="text-xs text-red-500 hover:text-red-700 flex-shrink-0"
+                    >
+                      Remover
+                    </button>
+                  </div>
+                ) : uploading ? (
+                  /* Enviando... */
+                  <div className="p-3 border border-blue-200 bg-blue-50 rounded-lg">
+                    <div className="flex justify-between text-xs text-blue-700 mb-1.5">
+                      <span>Enviando vídeo...</span>
+                      <span>{uploadProgress}%</span>
+                    </div>
+                    <div className="w-full bg-blue-100 rounded-full h-2">
+                      <div
+                        className="bg-blue-600 h-2 rounded-full transition-all duration-200"
+                        style={{ width: `${uploadProgress}%` }}
+                      />
+                    </div>
+                  </div>
+                ) : (
+                  /* Sem vídeo — upload ou URL */
+                  <div className="space-y-2">
+                    <label className="flex items-center justify-center gap-2 p-4 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-blue-400 hover:bg-blue-50 transition-all">
+                      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-gray-400">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                        <polyline points="17 8 12 3 7 8"/>
+                        <line x1="12" y1="3" x2="12" y2="15"/>
+                      </svg>
+                      <span className="text-sm text-gray-500">Clique para enviar arquivo de vídeo</span>
+                      <input
+                        type="file"
+                        accept="video/*"
+                        className="hidden"
+                        onChange={e => {
+                          const file = e.target.files?.[0]
+                          if (file) handleVideoUpload(file)
+                          e.target.value = ''
+                        }}
+                      />
+                    </label>
+                    <div className="flex items-center gap-2">
+                      <div className="flex-1 h-px bg-gray-200" />
+                      <span className="text-xs text-gray-400">ou cole uma URL (YouTube etc.)</span>
+                      <div className="flex-1 h-px bg-gray-200" />
+                    </div>
+                    <input
+                      className={input}
+                      value={lessonForm.video_url ?? ''}
+                      onChange={e => setLessonForm(f => ({ ...f, video_url: e.target.value }))}
+                      placeholder="https://www.youtube.com/watch?v=..."
+                    />
+                  </div>
+                )}
               </Field>
               <Field label="Duração (minutos)">
                 <input type="number" className={input} value={lessonForm.duration_minutes ?? 10} onChange={e => setLessonForm(f => ({ ...f, duration_minutes: Number(e.target.value) }))} />

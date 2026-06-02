@@ -100,12 +100,12 @@ export default function Dashboard() {
             </span>
           </a>
           <div className="flex items-center gap-3">
-            {user?.email === process.env.NEXT_PUBLIC_ADMIN_EMAIL && (
+            {user?.email === 'thamires.ferreirazampitravel@gmail.com' && (
               <a
                 href="/admin"
-                className="text-xs bg-brand-blue-soft text-brand-blue border border-brand-border px-3 py-1.5 rounded-lg font-medium hover:bg-brand-blue hover:text-white transition-colors"
+                className="text-xs bg-amber-50 border border-amber-300 text-amber-700 px-3 py-1.5 rounded-lg font-bold hover:bg-amber-100 transition-colors"
               >
-                Admin
+                ⚙️ Admin
               </a>
             )}
             <a href="/perfil" className="flex items-center gap-2 text-brand-text-secondary hover:text-brand-blue text-sm transition-colors">
@@ -177,6 +177,22 @@ export default function Dashboard() {
             </div>
           ))}
         </div>
+
+        {/* Atalho admin */}
+        {user?.email === 'thamires.ferreirazampitravel@gmail.com' && (
+          <div className="mb-6 bg-amber-50 border border-amber-200 rounded-2xl p-4 flex items-center justify-between">
+            <div>
+              <p className="font-bold text-amber-700 text-sm">⚙️ Painel de administração</p>
+              <p className="text-amber-600/70 text-xs mt-0.5">Gerencie módulos, aulas, vídeos e alunos</p>
+            </div>
+            <a
+              href="/admin"
+              className="bg-amber-500 hover:bg-amber-600 text-white text-sm font-bold px-5 py-2.5 rounded-xl transition-all shadow-sm hover:-translate-y-0.5 flex-shrink-0"
+            >
+              Abrir Admin →
+            </a>
+          </div>
+        )}
 
         {/* Módulos */}
         <div className="flex items-center justify-between mb-4">

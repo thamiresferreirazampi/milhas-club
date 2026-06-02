@@ -26,6 +26,7 @@ export default function ModulePage() {
   const [lessons, setLessons]           = useState<Lesson[]>([])
   const [completedIds, setCompletedIds] = useState<Set<string>>(new Set())
   const [loading, setLoading]           = useState(true)
+  const [isAdmin, setIsAdmin]           = useState(false)
 
   useEffect(() => {
     async function loadData() {
@@ -33,6 +34,7 @@ export default function ModulePage() {
       if (!user) { window.location.href = '/login'; return }
 
       const isAdmin = user.email === 'thamires.ferreirazampitravel@gmail.com'
+      setIsAdmin(isAdmin)
       if (!isAdmin) {
         const { data: access } = await supabase
           .from('user_access').select('id').eq('email', user.email!).single()
@@ -160,7 +162,18 @@ export default function ModulePage() {
         {/* Lista de aulas */}
         <div className="flex items-center justify-between mb-3">
           <h2 className="text-lg font-bold text-brand-text">Aulas</h2>
-          <span className="text-sm text-brand-text-muted">{lessons.length} aulas</span>
+          <div className="flex items-center gap-3">
+            <span className="text-sm text-brand-text-muted">{lessons.length} aulas</span>
+            {isAdmin && (
+              <a
+                href="/admin"
+                className="flex items-center gap-1.5 bg-amber-50 border border-amber-300 text-amber-700 text-xs font-bold px-3 py-1.5 rounded-lg hover:bg-amber-100 transition-colors"
+              >
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                Nova aula
+              </a>
+            )}
+          </div>
         </div>
 
         <div className="space-y-2">
@@ -212,12 +225,23 @@ export default function ModulePage() {
                   </p>
                 </div>
 
-                <svg
-                  className="flex-shrink-0 text-brand-border group-hover:text-brand-blue transition-colors"
-                  width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
-                >
-                  <path d="m9 18 6-6-6-6"/>
-                </svg>
+                <div className="flex items-center gap-1 flex-shrink-0">
+                  {isAdmin && (
+                    <button
+                      onClick={e => { e.preventDefault(); e.stopPropagation(); window.location.href = '/aula/' + lesson.id }}
+                      className="p-1.5 rounded-lg text-amber-500 hover:bg-amber-50 transition-colors"
+                      title="Editar aula"
+                    >
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                      </svg>
+                    </button>
+                  )}
+                  <svg className="text-brand-border group-hover:text-brand-blue transition-colors" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="m9 18 6-6-6-6"/>
+                  </svg>
+                </div>
               </a>
             )
           })}
